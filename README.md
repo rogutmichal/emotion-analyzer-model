@@ -12,7 +12,7 @@ Projekt trenuje model klasyfikacji wieloklasowej, który rozpoznaje sześć emoc
 - fear  
 - joy  
 Do treningu modelu wykorzystano zbiór danych: https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
-Model może przewidzieć top 3 emocje dla dowolnego tekstu oraz ocenić skuteczność klasyfikacji na danych walidacyjnych i testowych.
+Model może przewidzieć obecność emocji dla dowolnego tekstu oraz ocenić skuteczność klasyfikacji na danych walidacyjnych i testowych.
 
 ---
 
@@ -20,7 +20,7 @@ Model może przewidzieć top 3 emocje dla dowolnego tekstu oraz ocenić skuteczn
 
 - Ładowanie danych treningowych, walidacyjnych i testowych z plików `.txt`.  
 - Trenowanie modelu klasyfikacji emocji przy użyciu **LightGBM** i reprezentacji n-gramów.  
-- Prognozowanie top 3 emocji dla dowolnego tekstu.  
+- Prognozowanie emocji dla dowolnego tekstu.  
 - Ewaluacja modelu: dokładność mikro/makro, log-loss, macierz pomyłek, skuteczność dla każdej klasy i ważona dokładność.  
 - Obsługa wag dla rzadziej występujących emocji w danych treningowych.  
 
@@ -60,7 +60,7 @@ git clone https://github.com/rogutmichal/emocje.git
 1. **Przetwarzanie tekstu:** normalizacja, tokenizacja, usuwanie stop-words, tworzenie n-gramów (1-3).  
 2. **Konwersja tokenów na wartości numeryczne**  
 3. **Trenowanie LightGBM** na danych z uwzględnieniem wag dla niedoreprezentowanych emocji.  
-4. **Predykcja:** model zwraca prawdopodobieństwa dla wszystkich 6 emocji i wybiera top 3.  
+4. **Predykcja:** model zwraca prawdopodobieństwa dla wszystkich 6 emocji 
 
 ---
 Model osiągnął 90.40% dokładności na niezależnym zbiorze testowym (test.txt). Najlepiej rozpoznawane emocje to love (96.23%), surprise (93.94%) oraz anger (93.82%).
