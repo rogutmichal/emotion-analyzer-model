@@ -38,8 +38,10 @@ public class EmotionBasedRecommendation
             model = context.Model.Load(ModelPath, out _);
         }
 
-        var exampleText = new TextData { Text = "As with Part II, I've come to appreciate this one more, a great blend of sci-fi and western and features once more some fine performances from both Fox and Lloyd, who each do great work portraying different characters (or at least for Lloyd a different time version of Doc Brown. Beyond that, well done set and costume designs and a good enough story to conclude the trilogy"};
-        var top3Emotions = EmotionModel.PredictEmotion(context, model, exampleText);
+        Console.WriteLine("Wpisz recenzję do analizy emocji:");
+        string userReview = Console.ReadLine();
+
+        var exampleText = new TextData { Text = userReview }; var top3Emotions = EmotionModel.PredictEmotion(context, model, exampleText);
 
         Console.WriteLine($"Recenzja: {exampleText.Text}");
         Console.WriteLine("Top emocje :");
