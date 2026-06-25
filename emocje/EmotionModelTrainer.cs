@@ -13,6 +13,7 @@ namespace emocje
     {
         public static ITransformer TrainModel(MLContext context, List<TextData> texts)
         {
+            // Oblicanie wagi klas na podstawie częstości występowania każdej emocji.
             var classCounts = texts.GroupBy(r => r.Emotion)
                                    .ToDictionary(g => g.Key, g => g.Count());
             int maxCount = classCounts.Values.Max();
@@ -24,9 +25,12 @@ namespace emocje
                 Weight = (float)maxCount / classCounts[r.Emotion]
             }).ToList();
 
+            
+
             var trainData = context.Data.LoadFromEnumerable(weightedTexts);
             var cachedTrainData = context.Data.Cache(trainData);
 
+            // Tworzenie potoku przetwarzania danych i trenowania modelu
             var pipeline = context.Transforms.Conversion.MapValueToKey("Label", "Emotion")
                 .Append(context.Transforms.Text.NormalizeText("NormalizedText", "Text"))
                 .Append(context.Transforms.Text.TokenizeIntoWords("Tokens", "NormalizedText"))
@@ -36,6 +40,7 @@ namespace emocje
                 .Append(context.Transforms.Text.ProduceNgrams("BiGrams", "TokensKeys", ngramLength: 2, useAllLengths: false))
                 .Append(context.Transforms.Text.ProduceNgrams("TriGrams", "TokensKeys", ngramLength: 3, useAllLengths: false))
                 .Append(context.Transforms.Concatenate("Features", "UniGrams", "BiGrams", "TriGrams"))
+                // Dodanie klasyfikatora LightGBM z dostosowanymi parametrami
                 .Append(context.MulticlassClassification.Trainers.LightGbm(new LightGbmMulticlassTrainer.Options
                 {
                     LabelColumnName = "Label",

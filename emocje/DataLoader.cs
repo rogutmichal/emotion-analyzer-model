@@ -12,7 +12,7 @@ namespace emocje
     {
         public static List<TextData> LoadDataFromFile(string filePath)
         {
-            var reviews = new List<TextData>();
+            var texts = new List<TextData>();
             var lines = File.ReadAllLines(filePath);
 
             foreach (var line in lines)
@@ -26,11 +26,10 @@ namespace emocje
                         Emotion = parts[1].Trim()
                     };
 
-
-                    reviews.Add(review);
+                    texts.Add(review);
                 }
             }
-            return reviews;
+            return texts;
         }
     }
 }
