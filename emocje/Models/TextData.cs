@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace emocje.Models
 {
+    //model danych - przechowuje tekst i odpowiadającą mu emocję
     public class TextData
     {
         public string Text { get; set; }

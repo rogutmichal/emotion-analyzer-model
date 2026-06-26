@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace emocje.Models
 {
+    //model predykcji - przechowuje wynik emocji dla danego tekstu
     public class EmotionPrediction
     {
         [ColumnName("PredictedEmotion")]

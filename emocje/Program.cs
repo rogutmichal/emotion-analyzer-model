@@ -31,25 +31,25 @@ public class EmotionBasedRecommendation
         
         if (!File.Exists(ModelPath))
         {
-            // Jeśli model nie istnieje, trenujemy go
-            Console.WriteLine("Trenowanie modelu");
+            // trenowanie modelu
+            Console.WriteLine("Model training");
             model = EmotionModelTrainer.TrainModel(context, trainTexts);
             context.Model.Save(model, context.Data.LoadFromEnumerable(trainTexts).Schema, ModelPath);
         }
         else
         {
-            // Jeśli model istnieje, wczytujemy go
-            Console.WriteLine("Ładowanie modelu");
+            //ładowanie modelu z pliku
+            Console.WriteLine("Model loading");
             model = context.Model.Load(ModelPath, out _);
         }
 
-        Console.WriteLine("Wpisz tekst do analizy emocji:");
+        Console.WriteLine("Enter text for analysis:");
         string userReview = Console.ReadLine();
         // Przewidywanie emocji dla wprowadzonego tekstu
         var exampleText = new TextData { Text = userReview }; var Emotions = EmotionModel.PredictEmotion(context, model, exampleText);
 
-        Console.WriteLine($"Recenzja: {exampleText.Text}");
-        Console.WriteLine("Top emocje :");
+        Console.WriteLine($"Text: {exampleText.Text}");
+        Console.WriteLine("Emotions :");
         foreach (var kvp in Emotions)
         {
             Console.WriteLine($"{kvp.Key}: {kvp.Value:P2}");

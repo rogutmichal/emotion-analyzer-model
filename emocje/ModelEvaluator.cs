@@ -23,7 +23,7 @@ namespace emocje
             var predictions = model.Transform(testDataWithLabel);
             var metrics = context.MulticlassClassification.Evaluate(predictions, labelColumnName: "Label");
 
-            Console.WriteLine($"\n=== METRYKI MODELU – {datasetName.ToUpper()} ===");
+            Console.WriteLine($"\n=== MODEL METRICS – {datasetName.ToUpper()} ===");
             Console.WriteLine($"Accuracy (Micro): {metrics.MicroAccuracy:P2}");
             Console.WriteLine($"Accuracy (Macro): {metrics.MacroAccuracy:P2}");
             Console.WriteLine($"LogLoss: {metrics.LogLoss:F4}");
@@ -81,7 +81,7 @@ namespace emocje
             var labels = labelBuffer.DenseValues().Select(v => v.ToString()).ToList();
 
             
-            Console.WriteLine($"\n📌 Confusion Matrix ({datasetName}):");
+            Console.WriteLine($"\n Confusion Matrix ({datasetName}):");
             int columnWidth = 10;
             Console.Write($"{"Predicted →",-12}");
             foreach (var label in labels)
@@ -97,7 +97,7 @@ namespace emocje
                 Console.WriteLine();
             }
             // Wyświetlanie metryk dla każdej klasy
-            Console.WriteLine($"\n🎯 Per-class metrics ({datasetName}):");
+            Console.WriteLine($"\n Per-class metrics ({datasetName}):");
             
             Console.WriteLine($"{"Label",-12} {"Precision",10} {"Recall",10} {"F1-Score",10}");
             for (int i = 0; i < confusionMatrix.NumberOfClasses; i++)
