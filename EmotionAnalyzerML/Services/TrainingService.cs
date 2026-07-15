@@ -1,7 +1,7 @@
 ﻿using Microsoft.ML;
 using EmotionAnalyzerML.Models;
 
-namespace EmotionAnalyzerML.Training
+namespace EmotionAnalyzerML.Services
 {
     public class TrainingService
     {
@@ -32,6 +32,14 @@ namespace EmotionAnalyzerML.Training
             var dataView =
                 _context.Data.LoadFromEnumerable(
                     trainingData);
+
+
+            var directory = Path.GetDirectoryName(modelPath);
+
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
 
 
             _context.Model.Save(

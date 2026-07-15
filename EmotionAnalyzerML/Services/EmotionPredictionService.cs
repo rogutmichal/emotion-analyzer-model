@@ -30,7 +30,9 @@ namespace EmotionAnalyzerML.Services
         }
 
 
-        public Dictionary<string, float> Predict(string text)
+
+        public EmotionPredictionResult Predict(
+            string text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -39,25 +41,26 @@ namespace EmotionAnalyzerML.Services
             }
 
 
+
             var input = new TextData
             {
                 Text = text
             };
 
 
-            var data = new List<TextData>
-            {
-                input
-            };
 
+            var dataView =
+                _context.Data.LoadFromEnumerable(
+                    new List<TextData>
+                    {
+                        input
+                    });
 
-            var dataView = _context
-                .Data
-                .LoadFromEnumerable(data);
 
 
             var transformedData =
                 _model.Transform(dataView);
+
 
 
             var scores =
@@ -66,17 +69,27 @@ namespace EmotionAnalyzerML.Services
                 .First();
 
 
-            return EmotionLabels
-                .Select((label, index) => new
+
+            var predictions =
+                EmotionLabels
+                .Select((label, index) => new EmotionScore
                 {
-                    label,
-                    score = scores[index]
+                    Emotion = label,
+
+                    Confidence = scores[index]
                 })
-                .OrderByDescending(x => x.score)
-                .Take(3)
-                .ToDictionary(
-                    x => x.label,
-                    x => x.score);
+                .OrderByDescending(x => x.Confidence)
+                .Take(6)
+                .ToList();
+
+
+
+            return new EmotionPredictionResult
+            {
+                Text = text,
+
+                Predictions = predictions
+            };
         }
     }
 }

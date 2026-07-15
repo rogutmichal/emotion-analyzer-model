@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmotionAnalyzerML
+namespace EmotionAnalyzerML.Data
 {
     public class DataLoader
     {
