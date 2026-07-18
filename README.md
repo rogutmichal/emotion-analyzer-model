@@ -23,9 +23,6 @@ Frontend:
 https://emotion-analyzer-web.onrender.com/
 
 
-API:
-
-https://emotion-analyzer-api-rbo7.onrender.com
 
 
 ---
