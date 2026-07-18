@@ -4,13 +4,16 @@ using Microsoft.ML;
 
 
 var builder =
-    WebApplication.CreateBuilder(new WebApplicationOptions
-    {
-        Args = args
-    });
+    WebApplication.CreateBuilder(args);
+
+
+var port =
+    Environment.GetEnvironmentVariable("PORT")
+    ?? "8080";
+
 
 builder.WebHost.UseUrls(
-    "http://0.0.0.0:8080");
+    $"http://0.0.0.0:{port}");
 
 
 builder.Configuration.Sources.Clear();
