@@ -2,40 +2,49 @@
 
 @if (Result != null)
 {
-    <div class="result-container">
+    <div class="card result-card">
 
-        <h2>
-            Analysis result
-        </h2>
+        <div class="card-body">
 
-
-        <p>
-            <b>Text:</b>
-            @Result.Text
-        </p>
+            <h2>
+                Analysis result
+            </h2>
 
 
-        @foreach (var emotion in Result.Predictions)
-        {
-            <div class="emotion-row">
-
-                <div>
-                    <b>
-                        @emotion.Emotion
-                    </b>
-
-                    :
-                    @emotion.Confidence.ToString("P2")
-                </div>
+            <p>
+                <b>Text:</b>
+                @Result.Text
+            </p>
 
 
-                <div class="emotion-progress">
-                    <div class="emotion-progress-bar"
-                         style="@($"width:{emotion.Confidence * 100:F1}%".Replace(",", "."))">
+
+            @foreach (var emotion in Result.Predictions)
+            {
+                <div class="emotion-row">
+
+                    <div>
+                        <b>
+                            @emotion.Emotion
+                        </b>
+
+                        :
+                        @emotion.Confidence.ToString("P2")
                     </div>
+
+
+                    <div class="emotion-progress">
+
+                        <div class="emotion-progress-bar @GetEmotionColor(emotion.Emotion)"
+                             style="@($"width:{(emotion.Confidence * 100).ToString("F1", System.Globalization.CultureInfo.InvariantCulture)}%")">
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
-        }
+            }
+
+
+        </div>
 
     </div>
 }
@@ -45,5 +54,21 @@
 
     [Parameter]
     public EmotionPredictionResult? Result { get; set; }
+
+
+
+    private string GetEmotionColor(string emotion)
+    {
+        return emotion.ToLower() switch
+        {
+            "joy" => "joy",
+            "sadness" => "sadness",
+            "anger" => "anger",
+            "fear" => "fear",
+            "love" => "love",
+            "surprise" => "surprise",
+            _ => "default"
+        };
+    }
 
 }
