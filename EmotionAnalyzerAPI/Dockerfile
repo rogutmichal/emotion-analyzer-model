@@ -8,9 +8,9 @@ WORKDIR /src
 
 COPY . .
 
-RUN dotnet restore "EmotionAnalyzerAPI/EmotionAnalyzerAPI.csproj"
+RUN dotnet restore "EmotionAnalyzerAPI.csproj"
 
-RUN dotnet publish "EmotionAnalyzerAPI/EmotionAnalyzerAPI.csproj" \
+RUN dotnet publish "EmotionAnalyzerAPI.csproj" \
     -c Release \
     -o /app/publish
 
