@@ -60,5 +60,17 @@ namespace EmotionAnalyzer.API.Controllers
                 });
             }
         }
+
+        [HttpGet("status")]
+        public IActionResult Status()
+        {
+            return Ok(new
+            {
+                loaded = _loadedModelService.IsLoaded,
+                message = _loadedModelService.IsLoaded
+                    ? "Model is ready"
+                    : "Model is not loaded"
+            });
+        }
     }
 }

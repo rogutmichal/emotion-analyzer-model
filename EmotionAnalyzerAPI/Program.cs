@@ -59,6 +59,7 @@ builder.Services.AddSingleton<TrainingService>();
 // ===============================
 // Prediction
 // ===============================
+builder.Services.AddSingleton<ModelInitializer>();
 
 builder.Services.AddSingleton<EmotionPredictionService>();
 
@@ -93,6 +94,16 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var initializer =
+        scope.ServiceProvider
+            .GetRequiredService<ModelInitializer>();
+
+    initializer.Initialize();
+}
 
 
 app.Run();

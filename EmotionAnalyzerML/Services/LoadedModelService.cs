@@ -22,8 +22,20 @@ namespace EmotionAnalyzerML.Services
             }
 
 
-            Model =
-                loader.Load(modelPath);
+            Model = loader.Load(modelPath);
+        }
+
+
+
+        public ITransformer GetModel()
+        {
+            if (!IsLoaded)
+            {
+                throw new InvalidOperationException(
+                    "Model has not been loaded.");
+            }
+
+            return Model;
         }
     }
 }

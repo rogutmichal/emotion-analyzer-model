@@ -9,6 +9,7 @@ namespace EmotionAnalyzerML.Services
         private readonly MLContext _context;
         private readonly LoadedModelService _loadedModel;
 
+
         private static readonly string[] EmotionLabels =
         {
             "sadness",
@@ -20,13 +21,15 @@ namespace EmotionAnalyzerML.Services
         };
 
 
+
         public EmotionPredictionService(
-          MLContext context,
-          LoadedModelService loadedModel)
+            MLContext context,
+            LoadedModelService loadedModel)
         {
             _context = context;
             _loadedModel = loadedModel;
         }
+
 
 
         public EmotionPredictionResult Predict(string text)
@@ -38,17 +41,16 @@ namespace EmotionAnalyzerML.Services
             }
 
 
-            if (!_loadedModel.IsLoaded)
-            {
-                throw new InvalidOperationException(
-                    "Model is not loaded.");
-            }
+            var model =
+                _loadedModel.GetModel();
+
 
 
             var input = new TextData
             {
                 Text = text
             };
+
 
 
             var dataView =
@@ -59,8 +61,9 @@ namespace EmotionAnalyzerML.Services
                     });
 
 
+
             var transformedData =
-                _loadedModel.Model.Transform(dataView);
+                model.Transform(dataView);
 
 
 
