@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+
 EXPOSE 8080
 
 
@@ -21,6 +22,9 @@ RUN dotnet publish "EmotionAnalyzerAPI/EmotionAnalyzerAPI.csproj" \
 
 FROM base AS final
 WORKDIR /app
+
+
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 
 
 COPY --from=build /app/publish .
