@@ -1,0 +1,49 @@
+﻿@using EmotionAnalyzerWeb.Models
+
+@if (Result != null)
+{
+    <div class="result-container">
+
+        <h2>
+            Analysis result
+        </h2>
+
+
+        <p>
+            <b>Text:</b>
+            @Result.Text
+        </p>
+
+
+        @foreach (var emotion in Result.Predictions)
+        {
+            <div class="emotion-row">
+
+                <div>
+                    <b>
+                        @emotion.Emotion
+                    </b>
+
+                    :
+                    @emotion.Confidence.ToString("P2")
+                </div>
+
+
+                <div class="emotion-progress">
+                    <div class="emotion-progress-bar"
+                         style="@($"width:{emotion.Confidence * 100:F1}%".Replace(",", "."))">
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+
+
+@code {
+
+    [Parameter]
+    public EmotionPredictionResult? Result { get; set; }
+
+}

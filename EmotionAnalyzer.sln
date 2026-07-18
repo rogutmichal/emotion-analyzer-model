@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmotionAnalyzerTests", "Emo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmotionAnalyzerAPI", "EmotionAnalyzerAPI\EmotionAnalyzerAPI.csproj", "{C23164D2-F948-4B33-BC6B-896D9C960EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmotionAnalyzerWeb", "EmotionAnalyzerWeb\EmotionAnalyzerWeb.csproj", "{A14F4AB8-50C1-4794-9545-A11675066768}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C23164D2-F948-4B33-BC6B-896D9C960EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C23164D2-F948-4B33-BC6B-896D9C960EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C23164D2-F948-4B33-BC6B-896D9C960EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A14F4AB8-50C1-4794-9545-A11675066768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14F4AB8-50C1-4794-9545-A11675066768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14F4AB8-50C1-4794-9545-A11675066768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14F4AB8-50C1-4794-9545-A11675066768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

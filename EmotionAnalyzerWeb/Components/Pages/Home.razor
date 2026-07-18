@@ -1,0 +1,46 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+
+@using EmotionAnalyzerWeb.Models
+@using EmotionAnalyzerWeb.Components.Emotion
+
+@inject EmotionAnalyzerWeb.Services.EmotionApiService Api
+
+
+<h1>Emotion Analyzer</h1>
+
+
+<textarea @bind="text"
+          rows="5"
+          cols="50"
+          placeholder="Enter text">
+</textarea>
+
+
+<br />
+
+
+<button @onclick="Analyze">
+    Analyze
+</button>
+
+
+<EmotionResult Result="result" />
+
+
+@code {
+
+    private string text = "";
+
+    private EmotionPredictionResult? result;
+
+
+
+    private async Task Analyze()
+    {
+        result =
+            await Api.Predict(text);
+    }
+
+}
