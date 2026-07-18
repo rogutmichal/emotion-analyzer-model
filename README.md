@@ -20,9 +20,7 @@ The project consists of:
 # Live Demo
 
 Frontend:
-
-https://YOUR-BLAZOR-URL
-
+https://emotion-analyzer-web.onrender.com/
 API:
 
 https://emotion-analyzer-api-rbo7.onrender.com
