@@ -117,5 +117,10 @@ using (var scope = app.Services.CreateScope())
     initializer.Initialize();
 }
 
+app.MapGet("/", () =>
+{
+    return "Emotion Analyzer API is running";
+});
+
 
 app.Run();
