@@ -268,4 +268,41 @@ h1:focus {
     }
 
 
-   
+.evaluation-container {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+
+.evaluation-card {
+    margin-bottom: 30px;
+    border-radius: 15px;
+}
+
+
+.metrics-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+.metric-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #f5f7fb;
+    text-align: center;
+}
+
+
+    .metric-box span {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+
+.table {
+    margin-top: 20px;
+}

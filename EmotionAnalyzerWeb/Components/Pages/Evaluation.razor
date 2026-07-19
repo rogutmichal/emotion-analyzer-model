@@ -6,93 +6,283 @@
 @inject EmotionAnalyzerWeb.Services.EmotionApiService Api
 
 
-<h1>
-    Model Evaluation
-</h1>
+<div class="evaluation-container">
 
+    <h1 class="title">
+        Model Evaluation
+    </h1>
 
-@if (loading)
-{
-    <p>Loading evaluation...</p>
-}
-else if (error != null)
-{
-    <div class="alert alert-danger">
-        @error
-    </div>
-}
-else if (result != null)
-{
-
-    <div class="card">
-
-        <h3>Overall Metrics</h3>
-
-
-        <p>
-            Micro Accuracy:
-            <b>
-                @result.MicroAccuracy.ToString("P2")
-            </b>
-        </p>
-
-
-        <p>
-            Macro Accuracy:
-            <b>
-                @result.MacroAccuracy.ToString("P2")
-            </b>
-        </p>
-
-
-        <p>
-            Log Loss:
-            <b>
-                @result.LogLoss.ToString("F4")
-            </b>
-        </p>
-
-    </div>
+    <p class="subtitle">
+        Performance metrics of the trained emotion classification model
+    </p>
 
 
 
-    <div class="card">
-
-        <h3>
-            Per Emotion Metrics
-        </h3>
-
-
-        @foreach (var emotion in result.Labels)
-        {
-            <hr />
+    @if (loading)
+    {
+        <div class="card">
+            <p>
+                Loading evaluation results...
+            </p>
+        </div>
+    }
+    else if (error != null)
+    {
+        <div class="alert alert-danger">
 
             <h4>
-                @emotion
+                Unable to load evaluation results
             </h4>
 
-
             <p>
-                Precision:
-                @result.Precision[emotion].ToString("P2")
+                @error
             </p>
 
+        </div>
+    }
+    else if (result == null)
+    {
+        <div class="card">
+
+            <h3>
+                No evaluation data available
+            </h3>
 
             <p>
-                Recall:
-                @result.Recall[emotion].ToString("P2")
+                Please run the model evaluation from the API first.
             </p>
 
+        </div>
+    }
+    else
+    {
 
-            <p>
-                F1 Score:
-                @result.F1Score[emotion].ToString("P2")
-            </p>
-        }
+        <!-- Overall metrics -->
 
-    </div>
+        <div class="card evaluation-card">
 
-}
+            <h2>
+                Overall Metrics
+            </h2>
+
+
+            <div class="metrics-grid">
+
+
+                <div class="metric-box">
+
+                    <h3>
+                        Micro Accuracy
+                    </h3>
+
+                    <span>
+                        @result.MicroAccuracy.ToString("P2")
+                    </span>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <h3>
+                        Macro Accuracy
+                    </h3>
+
+                    <span>
+                        @result.MacroAccuracy.ToString("P2")
+                    </span>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <h3>
+                        Log Loss
+                    </h3>
+
+                    <span>
+                        @result.LogLoss.ToString("F4")
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Per emotion -->
+
+
+        <div class="card evaluation-card">
+
+
+            <h2>
+                Emotion Metrics
+            </h2>
+
+
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Emotion
+                        </th>
+
+                        <th>
+                            Precision
+                        </th>
+
+                        <th>
+                            Recall
+                        </th>
+
+                        <th>
+                            F1 Score
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    @foreach (var emotion in result.Labels)
+                    {
+
+                        <tr>
+
+                            <td>
+                                <b>
+                                    @emotion
+                                </b>
+                            </td>
+
+
+                            <td>
+                                @result.Precision[emotion].ToString("P2")
+                            </td>
+
+
+                            <td>
+                                @result.Recall[emotion].ToString("P2")
+                            </td>
+
+
+                            <td>
+                                @result.F1Score[emotion].ToString("P2")
+                            </td>
+
+
+                        </tr>
+
+                    }
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+
+        <!-- Confusion Matrix -->
+
+
+        <div class="card evaluation-card">
+
+
+            <h2>
+                Confusion Matrix
+            </h2>
+
+
+            <table class="table table-bordered">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Actual \ Predicted
+                        </th>
+
+
+                        @foreach (var label in result.Labels)
+                        {
+                            <th>
+                                @label
+                            </th>
+                        }
+
+                    </tr>
+
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                    @for (int i = 0; i < result.Labels.Count; i++)
+                    {
+
+                        <tr>
+
+
+                            <td>
+                                <b>
+                                    @result.Labels[i]
+                                </b>
+                            </td>
+
+
+
+                            @for (int j = 0; j < result.Labels.Count; j++)
+                            {
+
+                                <td>
+                                    @result.ConfusionMatrix[i][j]
+                                </td>
+
+                            }
+
+
+                        </tr>
+
+                    }
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    }
+
+
+</div>
 
 
 
@@ -105,21 +295,32 @@ else if (result != null)
     private string? error;
 
 
+
     protected override async Task OnInitializedAsync()
     {
+
         try
         {
+
             result =
                 await Api.GetEvaluation();
+
         }
         catch (Exception ex)
         {
-            error = ex.Message;
+
+            error =
+                "Could not connect to evaluation API. " +
+                ex.Message;
+
         }
         finally
         {
+
             loading = false;
+
         }
+
     }
 
 }

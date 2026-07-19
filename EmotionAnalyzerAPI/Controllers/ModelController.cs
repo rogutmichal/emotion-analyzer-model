@@ -1,4 +1,5 @@
-﻿using EmotionAnalyzerML.Data;
+﻿using EmotionAnalyzerAPI.Services;
+using EmotionAnalyzerML.Data;
 using EmotionAnalyzerML.Models;
 using EmotionAnalyzerML.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,23 +16,22 @@ namespace EmotionAnalyzer.API.Controllers
         private readonly ModelLoader _modelLoader;
         private readonly ModelSettings _modelSettings;
         private readonly ModelEvaluationService _evaluationService;
+        private readonly EvaluationStorageService _storage;
 
 
         public ModelController(
             TrainingService trainingService,
             LoadedModelService loadedModelService,
             ModelLoader modelLoader,
-            ModelEvaluationService evaluationService,
-            IOptions<ModelSettings> options)
+            IOptions<ModelSettings> options,
+            EvaluationStorageService storage)
         {
             _trainingService = trainingService;
             _loadedModelService = loadedModelService;
             _modelLoader = modelLoader;
-            _evaluationService = evaluationService;
             _modelSettings = options.Value;
+            _storage = storage;
         }
-
-
 
         [HttpPost("train")]
         public IActionResult Train()
@@ -83,19 +83,16 @@ namespace EmotionAnalyzer.API.Controllers
 
 
 
-        [HttpGet("evaluate")]
+        [HttpPost("evaluate")]
         public IActionResult Evaluate()
         {
             try
             {
                 if (!_loadedModelService.IsLoaded)
                 {
-                    return BadRequest(new
-                    {
-                        message = "Model is not loaded"
-                    });
+                    return BadRequest(
+                        "Model is not loaded.");
                 }
-
 
 
                 var testData =
@@ -103,25 +100,48 @@ namespace EmotionAnalyzer.API.Controllers
                         _modelSettings.TestFilePath);
 
 
+                var evaluator =
+                    new ModelEvaluationService(
+                        new Microsoft.ML.MLContext());
+
 
                 var result =
-                    _evaluationService.Evaluate(
-                        _loadedModelService.GetModel(),
+                    evaluator.Evaluate(
+                        _loadedModelService.Model,
                         testData,
                         "TEST");
 
+
+                _storage.Save(result);
 
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    message = "Evaluation failed",
-                    error = ex.Message
-                });
+                return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("evaluation")]
+        public IActionResult GetEvaluation()
+        {
+            var result =
+                _storage.Load();
+
+
+            if (result == null)
+            {
+                return NotFound(
+                    new
+                    {
+                        message =
+                        "No evaluation results available."
+                    });
+            }
+
+
+            return Ok(result);
+        }
     }
-}
+    }

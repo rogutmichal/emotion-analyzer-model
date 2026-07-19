@@ -1,3 +1,4 @@
+using EmotionAnalyzerAPI.Services;
 using EmotionAnalyzerML.Models;
 using EmotionAnalyzerML.Services;
 using Microsoft.ML;
@@ -81,6 +82,7 @@ builder.Services.AddSingleton<EmotionPredictionService>();
 // Evaluation
 // ===============================
 
+builder.Services.AddSingleton<EvaluationStorageService>();
 builder.Services.AddSingleton<ModelEvaluationService>();
 
 

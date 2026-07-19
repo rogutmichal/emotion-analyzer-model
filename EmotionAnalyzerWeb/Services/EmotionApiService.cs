@@ -46,17 +46,19 @@ namespace EmotionAnalyzerWeb.Services
 
         public async Task<ModelEvaluationResult?> GetEvaluation()
         {
-            try
-            {
-                return await _httpClient
-                    .GetFromJsonAsync<ModelEvaluationResult>(
-                        "api/model/evaluate");
-            }
-            catch (HttpRequestException)
+            var response =
+                await _httpClient.GetAsync(
+                    "api/model/evaluation");
+
+            if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(
-                    "Unable to connect to the Emotion Analyzer API.");
+                    "Evaluation results are not available yet.");
             }
+
+
+            return await response.Content
+                .ReadFromJsonAsync<ModelEvaluationResult>();
         }
     }
 }
