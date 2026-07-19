@@ -54,8 +54,15 @@
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
-                <div class="alert alert-danger">
+                <div class="alert alert-warning">
                     @errorMessage
+
+                    <br />
+
+                    <a href="https://emotion-analyzer-api-rbo7.onrender.com"
+                       target="_blank">
+                        Open Emotion Analyzer API
+                    </a>
                 </div>
             }
 

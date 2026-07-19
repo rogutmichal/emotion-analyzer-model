@@ -38,9 +38,10 @@ namespace EmotionAnalyzerWeb.Services
             catch (HttpRequestException)
             {
                 throw new Exception(
-                    "The Emotion Analyzer API is currently unavailable. " +
-                    "Please wait a moment while the API starts or open it manually here: " +
-                    "https://emotion-analyzer-api-rbo7.onrender.com");
+    "Unable to connect to the Emotion Analyzer service. " +
+    "The API may be starting after inactivity. " +
+    "Please try again in a few seconds or visit: " +
+    "https://emotion-analyzer-api-rbo7.onrender.com");
             }
         }
     }
