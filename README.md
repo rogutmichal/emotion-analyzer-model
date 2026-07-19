@@ -1,10 +1,46 @@
-# EmotionModelPrediction – Machine Learning Model for Emotion Detection Using LightGBM
+# Emotion Analyzer AI
 
-## Project Overview
+## Machine Learning Text Emotion Classification Application
 
-**EmotionModel** is a C# project built with **ML.NET** that analyzes text and predicts emotions expressed in reviews or user-generated content.
+Emotion Analyzer AI is a full-stack application that uses **ML.NET** to analyze text and predict emotional states.
 
-The project trains a **multiclass classification** model capable of recognizing six emotions:
+The system allows users to enter any text and receive probability scores for six different emotions.
+
+The project consists of:
+
+- **Blazor Web App** - user interface
+- **ASP.NET Core Web API** - backend API
+- **ML.NET Machine Learning Model** - emotion prediction engine
+- **Docker** - containerization
+- **Render** - cloud deployment
+
+
+---
+
+# Live Demo
+
+Frontend:
+https://emotion-analyzer-web.onrender.com/
+
+
+
+
+---
+
+# Features
+
+## User Interface
+
+- Modern Blazor Web App interface
+- Text emotion analysis page
+- Real-time prediction results
+- Emotion probability visualization
+- Responsive design
+
+
+## Machine Learning
+
+The model recognizes six emotions:
 
 - sadness
 - anger
@@ -13,85 +49,126 @@ The project trains a **multiclass classification** model capable of recognizing 
 - fear
 - joy
 
-The model was trained using the following Kaggle dataset:
-https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
 
-It can predict the dominant emotion in any input text and evaluate its performance on validation and test datasets.
+The prediction returns:
 
----
+- detected emotions
+- confidence percentage
+- probability ranking
 
-## Features
-
-- Load training, validation, and test datasets from `.txt` files.
-- Handle class imbalance by applying weights to underrepresented emotions.
-- Train an emotion classification model using **LightGBM** and **n-gram text features**.
-- Predict emotions for any input text.
-- Evaluate model performance using:
-  - Micro and Macro Accuracy
-  - Log Loss
-  - Confusion Matrix
-  - Per-class Accuracy
-  - Weighted Accuracy
 
 ---
 
-## Getting Started
+# Application Architecture
 
-### 1. Clone the repository
 
-```bash
-git clone https://github.com/rogutmichal/emocje.git
+```
+User
+ |
+ |
+Blazor Web App
+ |
+ |
+ASP.NET Core API
+ |
+ |
+ML.NET Model
+ |
+ |
+LightGBM Classifier
+ |
+ |
+Emotion Prediction
 ```
 
-### 2. Open the solution
-
-Open `emocje.sln` in **Visual Studio**.
-
-### 3. Install the required NuGet packages
-
-- Microsoft.ML
-- Microsoft.ML.LightGbm
-
-### 4. Run the project
-
-- If no trained model exists, it will automatically be trained using `train.txt`.
-- After training, the model is saved as `emotion_model.zip` and can be reused in future runs.
-
-### 5. Predict emotions
-
-Example predictions can be found in `Program.cs`.
 
 ---
 
-## Model Evaluation
+# How It Works
 
-The evaluation reports include:
 
-- Micro Accuracy
-- Macro Accuracy
-- Log Loss
-- Confusion Matrix
-- Accuracy for each emotion class
+1. User enters text in the Blazor application
+
+2. Frontend sends request to ASP.NET API
+
+3. API passes text to the ML.NET prediction service
+
+4. Machine learning model analyzes the text
+
+5. The application returns probability scores for every emotion
+
+
+Example:
+
+Input:
+
+```
+I was nervous at first, but after seeing the results I felt incredibly happy.
+```
+
+
+Output:
+
+```
+joy        85.20%
+fear       8.10%
+surprise   4.20%
+sadness    1.50%
+```
+
 
 ---
 
-## How the Model Works
+# Machine Learning Model
 
-1. **Text preprocessing**
-   - Text normalization
-   - Tokenization
-   - Stop-word removal
-   - Generation of 1–3 word n-grams
 
-2. **Feature extraction**
-   - Conversion of text into numerical feature vectors
+The model was trained using the Kaggle dataset:
 
-3. **Model training**
-   - LightGBM multiclass classifier
-   - Class weighting to improve performance on underrepresented emotions
+https://www.kaggle.com/datasets/praveengovi/emotions-dataset-for-nlp
 
-4. **Prediction**
-   - The model outputs probabilities for all six emotion classes.
+
+Model:
+
+- ML.NET
+- LightGBM multiclass classifier
+- Text featurization
+- n-gram extraction
+- class weighting
+
+
+---
+
+# Model Pipeline
+
+
+```
+Raw Text
+
+↓
+
+Text normalization
+
+↓
+
+Tokenization
+
+↓
+
+N-Gram Feature Extraction
+
+↓
+
+Numerical Feature Vector
+
+↓
+
+LightGBM Classification
+
+↓
+
+Emotion Probabilities
+```
+
 
 ---
 
@@ -160,3 +237,141 @@ joy                  3         6        57        11         3       615
 ```
 
 </details>
+
+
+---
+
+# Technologies
+
+
+## Backend
+
+- C#
+- ASP.NET Core 8
+- REST API
+- Dependency Injection
+
+
+## Machine Learning
+
+- ML.NET
+- LightGBM
+- Text Classification
+
+
+## Frontend
+
+- Blazor Web App
+- Razor Components
+- CSS
+
+
+## Deployment
+
+- Docker
+- Render
+- GitHub
+
+
+---
+
+# Running Locally
+
+
+## Clone repository
+
+```bash
+git clone https://github.com/rogutmichal/emotion-analyzer-model.git
+```
+
+
+## Open solution
+
+```
+EmotionAnalyzer.sln
+```
+
+
+Projects:
+
+```
+EmotionAnalyzerAPI
+EmotionAnalyzerML
+EmotionAnalyzerWeb
+EmotionAnalyzerConsole
+```
+
+
+---
+
+# Run API
+
+Navigate to:
+
+```
+EmotionAnalyzerAPI
+```
+
+
+Run:
+
+```bash
+dotnet run
+```
+
+
+API will start:
+
+```
+https://localhost:xxxx
+```
+
+
+---
+
+# Run Frontend
+
+Navigate to:
+
+```
+EmotionAnalyzerWeb
+```
+
+
+Run:
+
+```bash
+dotnet run
+```
+
+
+Open:
+
+```
+https://localhost:xxxx
+```
+
+
+---
+
+# Docker Deployment
+
+
+The API is containerized using Docker.
+
+
+Docker build:
+
+```bash
+docker build -t emotion-analyzer-api .
+```
+
+
+The application is deployed using Render.
+
+
+---
+
+
+
+
