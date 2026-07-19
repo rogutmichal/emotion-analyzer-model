@@ -16,27 +16,32 @@ namespace EmotionAnalyzerWeb.Services
 
 
 
-        public async Task<EmotionPredictionResult?> Predict(
-            string text)
+        public async Task<EmotionPredictionResult?> Predict(string text)
         {
-            var request = new
+            try
             {
-                text = text
-            };
+                var response =
+                    await _httpClient.PostAsJsonAsync(
+                        "api/emotion/predict",
+                        new
+                        {
+                            text = text
+                        });
 
 
-            var response =
-                await _httpClient.PostAsJsonAsync(
-                    "/api/emotion/predict",
-                    request);
+                response.EnsureSuccessStatusCode();
 
 
-
-            response.EnsureSuccessStatusCode();
-
-
-            return await response.Content
-                .ReadFromJsonAsync<EmotionPredictionResult>();
+                return await response.Content
+                    .ReadFromJsonAsync<EmotionPredictionResult>();
+            }
+            catch (HttpRequestException)
+            {
+                throw new Exception(
+                    "The Emotion Analyzer API is currently unavailable. " +
+                    "Please wait a moment while the API starts or open it manually here: " +
+                    "https://emotion-analyzer-api-rbo7.onrender.com");
+            }
         }
     }
 }
