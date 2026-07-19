@@ -10,6 +10,7 @@ namespace EmotionAnalyzerML.Data
 {
     public class DataLoader
     {
+        // Load data from a CSV file and return a list of TextData objects
         public static List<TextData> LoadDataFromFile(string filePath)
         {
             var reviews = new List<TextData>();
@@ -17,6 +18,7 @@ namespace EmotionAnalyzerML.Data
 
             foreach (var line in lines)
             {
+                
                 var parts = line.Split(';');
                 if (parts.Length == 2)
                 {

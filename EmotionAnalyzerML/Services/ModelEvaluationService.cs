@@ -4,6 +4,7 @@ using Microsoft.ML.Data;
 
 namespace EmotionAnalyzerML.Services
 {
+    //The service is responsible for the model evaluation
     public class ModelEvaluationService
     {
         private readonly MLContext _context;
@@ -16,19 +17,18 @@ namespace EmotionAnalyzerML.Services
         }
 
 
-
+        // Evaluates the provided model using the given test data and returns the evaluation results.
         public ModelEvaluationResult Evaluate(
             ITransformer model,
-            List<TextData> reviews,
+            List<TextData> texts,
             string datasetName)
         {
 
             var testData =
                 _context.Data.LoadFromEnumerable(
-                    reviews);
+                    texts);
 
-
-            // Dodanie Label
+            // Mapping the "Emotion" column to a key type for evaluation
             var labelMapping =
                 _context.Transforms
                 .Conversion
@@ -36,20 +36,20 @@ namespace EmotionAnalyzerML.Services
                     "Label",
                     "Emotion");
 
-
+            // Transform the test data
             var testDataWithLabel =
                 labelMapping
                 .Fit(testData)
                 .Transform(testData);
 
 
-
+            // Use the model to make predictions on the test data
             var predictions =
                 model.Transform(
                     testDataWithLabel);
 
 
-
+            // Evaluate the predictions using multiclass classification metrics
             var metrics =
                 _context.MulticlassClassification
                 .Evaluate(
@@ -58,16 +58,15 @@ namespace EmotionAnalyzerML.Services
 
 
 
-            // Pobranie nazw klas
             var labelBuffer =
                 new VBuffer<ReadOnlyMemory<char>>();
 
-
+            // Extract the predicted labels from the predictions
             predictions.Schema["PredictedLabel"]
                 .GetKeyValues(
                     ref labelBuffer);
 
-
+           
             var labels =
                 labelBuffer
                 .DenseValues()
@@ -75,12 +74,12 @@ namespace EmotionAnalyzerML.Services
                 .ToList();
 
 
-
+            // Get the confusion matrix from the evaluation metrics
             var confusionMatrix =
                 metrics.ConfusionMatrix;
 
 
-
+            // Calculate precision, recall, and F1 score for each class
             var precision =
                 new Dictionary<string, double>();
 
@@ -91,6 +90,7 @@ namespace EmotionAnalyzerML.Services
                 new Dictionary<string, double>();
 
 
+            // Loop through each label and calculate the metrics
             for (int i = 0; i < labels.Count; i++)
             {
                 var p =
@@ -118,7 +118,7 @@ namespace EmotionAnalyzerML.Services
             }
 
 
-
+            // Return the evaluation results
             return new ModelEvaluationResult
             {
                 DatasetName = datasetName,

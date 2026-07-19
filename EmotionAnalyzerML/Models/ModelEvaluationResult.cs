@@ -11,7 +11,7 @@ namespace EmotionAnalyzerML.Models
         public string DatasetName { get; set; }
 
 
-        // Ogólne metryki
+        // basic metrics
         public double MicroAccuracy { get; set; }
 
         public double MacroAccuracy { get; set; }
@@ -19,13 +19,13 @@ namespace EmotionAnalyzerML.Models
         public double LogLoss { get; set; }
 
 
-        // Macierz pomyłek
+        // Confusion matrix
         public List<string> Labels { get; set; }
 
         public long[][] ConfusionMatrix { get; set; }
 
 
-        // Metryki dla klas
+        // Per-class metrics
         public Dictionary<string, double> Precision { get; set; }
 
         public Dictionary<string, double> Recall { get; set; }

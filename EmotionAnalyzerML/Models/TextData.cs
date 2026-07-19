@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmotionAnalyzerML.Models
 {
+    //text data class for the model input
     public class TextData
     {
         public string Text { get; set; }
