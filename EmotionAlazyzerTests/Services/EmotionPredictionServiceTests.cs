@@ -52,7 +52,7 @@ namespace EmotionAnalyzerTests.Services
 
             var context = new MLContext();
 
-      var loadedModel = new LoadedModelService();
+            var loadedModel = new LoadedModelService();
 
             var loader = new ModelLoader(context);
 
@@ -127,8 +127,6 @@ namespace EmotionAnalyzerTests.Services
 
             Assert.Contains("anger", emotions);
 
-
-
         }
 
         // Verifies that prediction confidence scores are valid
@@ -146,7 +144,6 @@ namespace EmotionAnalyzerTests.Services
 
             var modelPath = Path.Combine(AppContext.BaseDirectory, "TestData", "emotion_model.zip");
 
-
             loadedModel.LoadModel(loader, modelPath);
 
 
@@ -156,11 +153,7 @@ namespace EmotionAnalyzerTests.Services
 
             var result = service.Predict("I am extremely happy and excited today");
 
-
-
             var predictions = result.Predictions;
-
-
 
             // Assert
 
@@ -171,7 +164,6 @@ namespace EmotionAnalyzerTests.Services
             {
                 Assert.InRange(prediction.Confidence,0,1);
             }
-
 
 
             // Check that predictions are sorted descending by confidence
