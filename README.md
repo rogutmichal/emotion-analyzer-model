@@ -29,6 +29,14 @@ https://emotion-analyzer-api-rbo7.onrender.com/swagger
 
 ---
 
+## Projects
+
+- **EmotionAnalyzerML** – Machine learning library containing model training, prediction and evaluation logic.
+- **EmotionAnalyzerAPI** – ASP.NET Core Web API exposing prediction and evaluation endpoints.
+- **EmotionAnalyzerWeb** – Blazor web application providing the user interface.
+- **EmotionAnalyzerConsole** – Console application used during development for training and evaluating the ML model.
+- **EmotionAnalyzerMLTests** – Automated tests for the machine learning services.
+
 # Features
 
 ## User Interface
